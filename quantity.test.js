@@ -1,5 +1,5 @@
 const {Quantity} = require("./quantity")
-const {TEASPOON, TABLESPOON, OUNCE, CUP, PINT, QUART, GALLON, INCH, FOOT, YARD, FURLONG, MILE} = require("./unit")
+const {TEASPOON, TABLESPOON, OUNCE, CUP, PINT, QUART, GALLON, INCH, FOOT, YARD, FURLONG, MILE, CELSIUS, FAHRENHEIT} = require("./unit")
 
 
 
@@ -35,7 +35,7 @@ describe('quantity', () => {
       test('32 tablespoons is equal to 2 cups', () => {
         expect(new Quantity(32, TABLESPOON).isEqual(new Quantity(2, CUP))).toBe(true)
       });
-      test('32 tablespoons is equal to 2 cups', () => {
+      test('2 cups is equal to 32 tablespoons', () => {
         expect(new Quantity(2, CUP).isEqual(new Quantity(32, TABLESPOON))).toBe(true)
       });
       test('1 inch is equal to 1 inch', () => {
@@ -58,6 +58,21 @@ describe('quantity', () => {
       });
       test('1 inch is not equal to 1 teaspoon', () => {
         expect(new Quantity(1, INCH).isEqual(new Quantity(1, TEASPOON))).toBe(false)
+      });
+      test('0 degrees c is equal to 0 degrees c', () => {
+        expect(new Quantity(0, CELSIUS).isEqual(new Quantity(0, CELSIUS))).toBe(true)
+      });
+      test('10 degrees c is equal to 0 degrees c', () => {
+        expect(new Quantity(10, CELSIUS).isEqual(new Quantity(0, CELSIUS))).toBe(false)
+      });
+      test('0 degrees c is equal to 32 degrees f', () => {
+        expect(new Quantity(0, CELSIUS).isEqual(new Quantity(32, FAHRENHEIT))).toBe(true)
+      });
+      test('212 degrees f is equal to 100 degrees c', () => {
+        expect(new Quantity(212, FAHRENHEIT).isEqual(new Quantity(100, CELSIUS))).toBe(true)
+      });
+      test('-40 degrees c is equal to -40 degrees f', () => {
+        expect(new Quantity(-40, CELSIUS).isEqual(new Quantity(-40, FAHRENHEIT))).toBe(true)
       });
   })  
   describe('add' , () => {

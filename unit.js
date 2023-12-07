@@ -1,33 +1,16 @@
 class Unit {
-    constructor(relativeUnitMultiplier, relativeUnit=null) {
-        this.relativeUnitMultiplier = relativeUnitMultiplier
-        this.relativeUnit = relativeUnit
-        this.baseUnit = this._getBaseUnit()
-        this.ratioToBaseUnit = this._getAmountInBaseUnits(1)
+    constructor(relativeUnitMultiplier, relativeUnit=null, relativeUnitOffset = 0) {
+        this.baseUnit = relativeUnit?.baseUnit ?? this
+        this.ratioToBaseUnit = relativeUnitMultiplier * (relativeUnit?.ratioToBaseUnit ?? 1)
+        this.relativeUnitOffset = relativeUnitOffset
     }
 
-    _getBaseUnit() {
-        if (!this.relativeUnit) {
-            return this
-
-        }
-        return this.relativeUnit._getBaseUnit()
-    }
-
-    isCompatible(other_unit) {
-        return this.baseUnit === other_unit.baseUnit
-    }
-
-    _getAmountInBaseUnits(amount) {
-        if (!this.relativeUnit) {
-            return amount * this.relativeUnitMultiplier;
-        }
-        return this.relativeUnit._getAmountInBaseUnits(amount * this.relativeUnitMultiplier);
+    isCompatible(otherUnit) {
+        return this.baseUnit === otherUnit.baseUnit
     }
 
     getAmountInDesiredUnits(amount, desiredUnit) {
-        return this.ratioToBaseUnit * amount / desiredUnit.ratioToBaseUnit
-
+        return (amount - this.relativeUnitOffset) * this.ratioToBaseUnit / desiredUnit.ratioToBaseUnit + desiredUnit.relativeUnitOffset
     }
 }
 
@@ -46,7 +29,10 @@ const YARD = new Unit(3, FOOT)
 const FURLONG = new Unit(220, YARD)
 const MILE = new Unit(8, FURLONG)
 
-module.exports = {TEASPOON, TABLESPOON, OUNCE, CUP, PINT, QUART, GALLON, INCH, FOOT, YARD, FURLONG, MILE}
+const CELSIUS = new Unit(1)
+const FAHRENHEIT = new Unit(5/9, CELSIUS, 32)
+
+module.exports = {TEASPOON, TABLESPOON, OUNCE, CUP, PINT, QUART, GALLON, INCH, FOOT, YARD, FURLONG, MILE, CELSIUS, FAHRENHEIT}
 
 
 

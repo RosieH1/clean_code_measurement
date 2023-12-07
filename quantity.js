@@ -8,10 +8,9 @@ class Quantity {
     isEqual(that) {
         if (this.unit.isCompatible(that.unit)) {
             let thatAmountInDesiredUnits = that.unit.getAmountInDesiredUnits(that.amount, this.unit)
-            return thatAmountInDesiredUnits == this.amount
+            return thatAmountInDesiredUnits === this.amount
         }
         return false
-
     }
 
     add(that) {
